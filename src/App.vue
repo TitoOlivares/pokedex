@@ -31,7 +31,6 @@
         <span class="mr-6 letter-spacing-0">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-      <v-btn color="primary" class="white--text">Hola</v-btn>
     </v-app-bar>
 
     <v-main>
