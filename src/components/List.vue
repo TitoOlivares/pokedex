@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <v-text-field
+      v-model="search"
       solo
       color="default"
       label="Search"
-      style=""
       prepend-inner-icon="mdi-magnify"
     ></v-text-field>
-    <v-row class="mt-6">
+    <v-row v-if="pokemonList.length" class="mt-6">
       <v-col cols="12" v-for="(pokemon, i) in pokemonList" :key="i">
         <v-card
           height="60"
@@ -22,6 +22,9 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-else>
+      <empty-list />
+    </v-row>
     <modal-detail />
     <v-bottom-navigation
       class="d-flex justify-center align-center"
@@ -29,16 +32,22 @@
       height="80"
       v-model="value"
     >
-      <btn class="mr-3" :width="'600'" :height="'44'" value="recent">
+      <btn class="mr-3" :width="'600'" :height="'44'" value="all">
         <v-row align="center" class="d-flex">
           <v-icon dark color="white darken-2" left>
             mdi-format-list-bulleted-square
           </v-icon>
-          <span>Recent</span>
+          <span>All</span>
         </v-row>
       </btn>
 
-      <btn class="ml-3" :width="'600'" :height="'44'" value="favorites">
+      <btn
+        @click="handleFavs"
+        class="ml-3"
+        :width="'600'"
+        :height="'44'"
+        value="favs"
+      >
         <v-row align="center" class="d-flex">
           <v-icon dark color="white darken-2" left> mdi-star </v-icon>
           <span>Favorites</span>
@@ -51,16 +60,19 @@
 <script>
 import Btn from "../components/ui/btn";
 import ModalDetail from "../components/ModalDetail";
+import EmptyList from "../components/EmptyList";
+
 export default {
   name: "PokeList",
 
   components: {
     Btn,
     ModalDetail,
+    EmptyList,
   },
 
   data: () => ({
-    value: "recent",
+    value: "all",
   }),
   methods: {
     showPokemon(p) {
@@ -69,13 +81,24 @@ export default {
     jojo() {
       console.log("cualquier cosa");
     },
+    handleFavs() {
+      this.$router.push("favs");
+    },
   },
   beforeMount() {
     this.$store.dispatch("getPokemonList");
   },
   computed: {
     pokemonList() {
-      return this.$store.getters.getPokemonList;
+      return this.$store.getters.getShowingList;
+    },
+    search: {
+      get() {
+        return this.$store.getters.getFilter;
+      },
+      set(value) {
+        this.$store.dispatch("setFilter", value);
+      },
     },
   },
 };

@@ -35,7 +35,7 @@
 <script>
 import Loader from "./Loader.vue";
 import Btn from "../components/ui/btn";
-import PikachuImage from "./PikachuImage";
+import PikachuImage from "./ui/PikachuImage";
 
 export default {
   name: "HelloWorld",

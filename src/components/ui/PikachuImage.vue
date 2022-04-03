@@ -4,12 +4,12 @@
       <div id="container">
         <img
           class="ellipse"
-          src="../assets/ellipse.svg"
+          src="../../assets/ellipse.svg"
           height="206"
           width="206"
         />
         <img
-          src="../assets/pikachu.svg"
+          src="../../assets/pikachu.svg"
           height="288"
           width="325"
           class="pikachu"

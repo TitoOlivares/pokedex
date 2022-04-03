@@ -18,25 +18,31 @@
           </v-img>
         </v-card-title>
         <v-card-text>
-          <v-row class="my-3 ml-0"> Name: {{ pokemon.name }} </v-row>
+          <v-row class="my-4 ml-0" align="center">
+            <span class="key">Name:&nbsp;</span>
+            {{ pokemon.name }}
+          </v-row>
           <v-divider class="mt-3"></v-divider>
-          <v-row class="my-3 ml-0"> Weight: {{ pokemon.weight }} </v-row>
+          <v-row class="my-4 ml-0" align="center">
+            <span class="key"> Weight:&nbsp; </span>
+            {{ pokemon.weight }}
+          </v-row>
           <v-divider class="mt-3"></v-divider>
-          <v-row class="my-3 ml-0">
+          <v-row class="my-4 ml-0" align="center">
             <span class="key"> Height:&nbsp; </span>
             {{ pokemon.height }}
           </v-row>
           <v-divider class="mt-3"></v-divider>
-          <v-row class="my-3 ml-0">
+          <v-row class="my-4 ml-0" align="center">
             <span class="key">Types:&nbsp;</span>
             <span class="text-capitalize"> {{ getTypes.join(", ") }} </span>
           </v-row>
           <v-divider class="mt-3"></v-divider>
           <v-row class="mt-6 mb-1 d-flex justify-space-between">
-            <v-col cols="12" md="6">
+            <v-col>
               <btn> Share to my friends </btn>
             </v-col>
-            <v-col class="d-flex justify-end" cols="12" md="6">
+            <v-col class="d-flex justify-end">
               <v-btn elevation="0" fab small>
                 <img src="../assets/selected.svg" alt="" />
               </v-btn>
