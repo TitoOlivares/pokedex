@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import pokemon from "./pokemon";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  strict: true,
+  modules: {
+    pokemon,
+  },
 });
