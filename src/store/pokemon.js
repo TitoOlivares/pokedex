@@ -2,13 +2,19 @@ import { getPokemonList, getPokemon } from "../api/poke-api";
 
 const initialState = {
   pokemonList: [],
+  showingList: [],
   pokemon: {},
   showModal: false,
+  filter: "",
 };
 
 export const mutations = {
   setPokemonList(state, payload) {
     state.pokemonList = payload;
+  },
+
+  setShowingList(state, payload) {
+    state.showingList = payload;
   },
 
   setPokemon(state, payload) {
@@ -18,12 +24,17 @@ export const mutations = {
   setShowModal(state, payload) {
     state.showModal = payload;
   },
+
+  setFilter(state, payload) {
+    state.filter = payload;
+  },
 };
 
 export const actions = {
   async getPokemonList({ commit }) {
     const pokemonList = await getPokemonList();
     commit("setPokemonList", pokemonList.results);
+    commit("setShowingList", pokemonList.results);
   },
 
   async getPokemon({ commit }, payload) {
@@ -31,11 +42,22 @@ export const actions = {
     commit("setPokemon", pokemon);
     commit("setShowModal", true);
   },
+
+  setFilter({ state, commit }, payload) {
+    const filtered = state.pokemonList.filter((f) =>
+      f.name.includes(payload.toLowerCase())
+    );
+    commit("setShowingList", filtered);
+  },
 };
 
 export const getters = {
   getPokemonList(state) {
     return state.pokemonList;
+  },
+
+  getShowingList(state) {
+    return state.showingList;
   },
 
   getPokemon(state) {
@@ -56,6 +78,10 @@ export const getters = {
 
   getShowModal(state) {
     return state.showModal;
+  },
+
+  getFilter(state) {
+    return state.filter;
   },
 };
 export default {
