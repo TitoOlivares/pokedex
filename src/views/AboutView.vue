@@ -1,5 +1,21 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <list />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
+<script>
+import List from "../components/List";
+
+export default {
+  name: "ListView",
+
+  components: {
+    List,
+  },
+};
+</script>
