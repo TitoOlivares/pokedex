@@ -55,7 +55,6 @@ export default {
   },
 
   data: () => ({
-    variable: false,
     inactive: require("../assets/unselected.svg"),
     active: require("../assets/selected.svg"),
   }),
