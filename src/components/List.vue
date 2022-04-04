@@ -64,7 +64,7 @@ export default {
       this.$store.dispatch("getPokemon", poke.name);
     },
     favorite(poke) {
-      this.$store.commit("setFav", poke);
+      this.$store.dispatch("setFav", poke);
     },
     star(poke) {
       if (this.pokemonFavs.includes(poke)) {

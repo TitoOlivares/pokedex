@@ -81,6 +81,10 @@ export const actions = {
     );
     commit("setShowingFavsList", filtered);
   },
+  async setFav({ state, commit }, payload) {
+    await commit("setFav", payload);
+    commit("setFavList", state.pokemonList);
+  },
 };
 
 export const getters = {

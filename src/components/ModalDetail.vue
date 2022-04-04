@@ -20,7 +20,7 @@
         <v-card-text>
           <v-row class="my-4 ml-0" align="center">
             <span class="key">Name:&nbsp;</span>
-            {{ pokemon.name }}
+            <span class="text-capitalize">{{ pokemon.name }}</span>
           </v-row>
           <v-divider class="mt-3"></v-divider>
           <v-row class="my-4 ml-0" align="center">
@@ -29,7 +29,7 @@
           </v-row>
           <v-divider class="mt-3"></v-divider>
           <v-row class="my-4 ml-0" align="center">
-            <span class="key"> Height:&nbsp; </span>
+            <span id="test" class="key"> Height:&nbsp; </span>
             {{ pokemon.height }}
           </v-row>
           <v-divider class="mt-3"></v-divider>
@@ -40,7 +40,7 @@
           <v-divider class="mt-3"></v-divider>
           <v-row class="mt-6 mb-1 d-flex justify-space-between">
             <v-col>
-              <btn> Share to my friends </btn>
+              <btn @click="copyToClipboard"> Share to my friends </btn>
             </v-col>
             <v-col class="d-flex justify-end">
               <v-btn icon @click.native.stop="favorite(pokemon.name)">
@@ -99,6 +99,10 @@ export default {
         return true;
       }
       return false;
+    },
+    copyToClipboard() {
+      const nose = document.querySelector("#test");
+      console.log("lalala", nose);
     },
   },
 };
