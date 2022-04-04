@@ -147,4 +147,9 @@ export default {
   font-size: 14px;
   line-height: 150%;
 }
+
+.v-snack__wrapper {
+  max-width: 160px !important;
+  min-width: 160px !important;
+}
 </style>
