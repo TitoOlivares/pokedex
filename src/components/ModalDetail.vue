@@ -43,8 +43,8 @@
               <btn> Share to my friends </btn>
             </v-col>
             <v-col class="d-flex justify-end">
-              <v-btn elevation="0" fab small>
-                <img src="../assets/selected.svg" alt="" />
+              <v-btn icon @click.native.stop="favorite(pokemon.name)">
+                <img :src="star(pokemon.name) ? active : inactive" alt="" />
               </v-btn>
             </v-col>
           </v-row>
@@ -64,6 +64,8 @@ export default {
 
   data: () => ({
     types: [],
+    inactive: require("../assets/unselected.svg"),
+    active: require("../assets/selected.svg"),
   }),
 
   computed: {
@@ -79,10 +81,24 @@ export default {
     getTypes() {
       return this.$store.getters.getTypes;
     },
+    pokemonFavs() {
+      return this.$store.getters.getFavs;
+    },
   },
   methods: {
     close() {
       this.$store.commit("setShowModal", false);
+    },
+
+    favorite(poke) {
+      this.$store.commit("setFav", poke);
+    },
+
+    star(poke) {
+      if (this.pokemonFavs.includes(poke)) {
+        return true;
+      }
+      return false;
     },
   },
 };
