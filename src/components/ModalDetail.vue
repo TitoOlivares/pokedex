@@ -29,7 +29,7 @@
           </v-row>
           <v-divider class="mt-3"></v-divider>
           <v-row class="my-4 ml-0" align="center">
-            <span id="test" class="key"> Height:&nbsp; </span>
+            <span class="key"> Height:&nbsp; </span>
             {{ pokemon.height }}
           </v-row>
           <v-divider class="mt-3"></v-divider>
@@ -40,7 +40,7 @@
           <v-divider class="mt-3"></v-divider>
           <v-row class="mt-6 mb-1 d-flex justify-space-between">
             <v-col>
-              <btn @click="copyToClipboard"> Share to my friends </btn>
+              <btn @click="copy"> Share to my friends </btn>
             </v-col>
             <v-col class="d-flex justify-end">
               <v-btn icon @click.native.stop="favorite(pokemon.name)">
@@ -49,6 +49,19 @@
             </v-col>
           </v-row>
         </v-card-text>
+        <input type="hidden" id="copy" :value="textToCopy" />
+        <v-snackbar
+          transition="scroll-y-reverse-transition"
+          elevation="0"
+          class="mb-6 d-flex justify-content"
+          :timeout="1000"
+          v-model="snackbar"
+          color="primary"
+          absolute
+          rounded="pill"
+        >
+          <span>Copied!</span>
+        </v-snackbar>
       </v-card>
     </v-dialog>
   </v-row>
@@ -66,6 +79,7 @@ export default {
     types: [],
     inactive: require("../assets/unselected.svg"),
     active: require("../assets/selected.svg"),
+    snackbar: false,
   }),
 
   computed: {
@@ -84,6 +98,11 @@ export default {
     pokemonFavs() {
       return this.$store.getters.getFavs;
     },
+    textToCopy() {
+      return `${this.pokemon.name.toUpperCase()}, Weight: ${
+        this.pokemon.weight
+      }, Height: ${this.pokemon.height}, Types: ${this.getTypes.join(", ")}`;
+    },
   },
   methods: {
     close() {
@@ -100,9 +119,14 @@ export default {
       }
       return false;
     },
-    copyToClipboard() {
-      const nose = document.querySelector("#test");
-      console.log("lalala", nose);
+    copy() {
+      const urlToCopyInput = document.querySelector("#copy");
+      urlToCopyInput.setAttribute("type", "text");
+      urlToCopyInput.select();
+      document.execCommand("copy");
+      urlToCopyInput.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
+      this.snackbar = true;
     },
   },
 };
