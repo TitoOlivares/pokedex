@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <list />
+        <list :pokemon-list="pokemonList" :list="'all'" />
       </v-col>
     </v-row>
   </v-container>
@@ -16,6 +16,19 @@ export default {
 
   components: {
     List,
+  },
+
+  beforeMount() {
+    this.$store.dispatch("getPokemonList");
+  },
+
+  computed: {
+    pokemonList() {
+      return this.$store.getters.getShowingList;
+    },
+    pokemonFavs() {
+      return this.$store.getters.getFavs;
+    },
   },
 };
 </script>

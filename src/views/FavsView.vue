@@ -1,11 +1,30 @@
 <template>
   <v-container>
-    <h1>Favoritos</h1>
+    <list :pokemon-list="pokemonList" :list="'favs'" />
   </v-container>
 </template>
 
 <script>
-export default {};
+import List from "../components/List";
+
+export default {
+  components: {
+    List,
+  },
+
+  beforeMount() {
+    this.$store.dispatch("getPokemonList");
+  },
+
+  computed: {
+    pokemonList() {
+      return this.$store.getters.getShowingFavsList;
+    },
+    pokemonFavs() {
+      return this.$store.getters.getFavs;
+    },
+  },
+};
 </script>
 
 <style></style>
