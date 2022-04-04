@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Btn from "../components/ui/btn";
+import Btn from "../components/ui/Btn";
 
 export default {
   name: "EmptyList",

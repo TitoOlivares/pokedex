@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import Loader from "./Loader.vue";
-import Btn from "../components/ui/btn";
+import Loader from "./ui/Loader.vue";
+import Btn from "../components/ui/Btn";
 import PikachuImage from "./ui/PikachuImage";
 
 export default {
-  name: "HelloWorld",
+  name: "WelcomeView",
 
   components: {
     Loader,

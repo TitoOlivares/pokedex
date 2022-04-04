@@ -15,9 +15,11 @@
           elevation="0"
           class="d-flex align-center justify-space-between py-3 px-6"
         >
-          <span class="text-capitalize"> {{ pokemon.name }} </span>
-          <v-btn icon @click="jojo">
-            <img src="../assets/unselected.svg" alt="" />
+          <span class="text-capitalize">
+            {{ pokemon.name }}
+          </span>
+          <v-btn icon @click.native.stop="favorite(pokemon.name)">
+            <img :src="star(pokemon.name) ? active : inactive" alt="" />
           </v-btn>
         </v-card>
       </v-col>
@@ -26,39 +28,10 @@
       <empty-list />
     </v-row>
     <modal-detail />
-    <v-bottom-navigation
-      class="d-flex justify-center align-center"
-      fixed
-      height="80"
-      v-model="value"
-    >
-      <btn class="mr-3" :width="'600'" :height="'44'" value="all">
-        <v-row align="center" class="d-flex">
-          <v-icon dark color="white darken-2" left>
-            mdi-format-list-bulleted-square
-          </v-icon>
-          <span>All</span>
-        </v-row>
-      </btn>
-
-      <btn
-        @click="handleFavs"
-        class="ml-3"
-        :width="'600'"
-        :height="'44'"
-        value="favs"
-      >
-        <v-row align="center" class="d-flex">
-          <v-icon dark color="white darken-2" left> mdi-star </v-icon>
-          <span>Favorites</span>
-        </v-row>
-      </btn>
-    </v-bottom-navigation>
   </div>
 </template>
 
 <script>
-import Btn from "../components/ui/btn";
 import ModalDetail from "../components/ModalDetail";
 import EmptyList from "../components/EmptyList";
 
@@ -66,39 +39,59 @@ export default {
   name: "PokeList",
 
   components: {
-    Btn,
     ModalDetail,
     EmptyList,
   },
 
-  data: () => ({
-    value: "all",
-  }),
-  methods: {
-    showPokemon(p) {
-      this.$store.dispatch("getPokemon", p.name);
+  props: {
+    pokemonList: {
+      type: Array,
+      required: true,
     },
-    jojo() {
-      console.log("cualquier cosa");
-    },
-    handleFavs() {
-      this.$router.push("favs");
+    list: {
+      type: String,
+      required: true,
     },
   },
-  beforeMount() {
-    this.$store.dispatch("getPokemonList");
+
+  data: () => ({
+    variable: false,
+    inactive: require("../assets/unselected.svg"),
+    active: require("../assets/selected.svg"),
+  }),
+
+  methods: {
+    showPokemon(poke) {
+      this.$store.dispatch("getPokemon", poke.name);
+    },
+    favorite(poke) {
+      this.$store.commit("setFav", poke);
+    },
+    star(poke) {
+      if (this.pokemonFavs.includes(poke)) {
+        return true;
+      }
+      return false;
+    },
   },
   computed: {
-    pokemonList() {
-      return this.$store.getters.getShowingList;
-    },
     search: {
       get() {
-        return this.$store.getters.getFilter;
+        if (this.list === "favs") {
+          return this.$store.getters.getAllFavsFilter;
+        }
+        return this.$store.getters.getAllFilter;
       },
       set(value) {
-        this.$store.dispatch("setFilter", value);
+        if (this.list === "favs") {
+          this.$store.dispatch("setFavsFilter", value);
+        } else {
+          this.$store.dispatch("setAllFilter", value);
+        }
       },
+    },
+    pokemonFavs() {
+      return this.$store.getters.getFavs;
     },
   },
 };

@@ -3,9 +3,13 @@ import { getPokemonList, getPokemon } from "../api/poke-api";
 const initialState = {
   pokemonList: [],
   showingList: [],
+  showingFavsList: [],
   pokemon: {},
   showModal: false,
-  filter: "",
+  allFilter: "",
+  allFavsFilter: "",
+  favs: JSON.parse(localStorage.getItem("PokeFavs")) || [],
+  favList: [],
 };
 
 export const mutations = {
@@ -17,6 +21,10 @@ export const mutations = {
     state.showingList = payload;
   },
 
+  setShowingFavsList(state, payload) {
+    state.showingFavsList = payload;
+  },
+
   setPokemon(state, payload) {
     state.pokemon = payload;
   },
@@ -25,8 +33,24 @@ export const mutations = {
     state.showModal = payload;
   },
 
-  setFilter(state, payload) {
-    state.filter = payload;
+  setAllFilter(state, payload) {
+    state.allFilter = payload;
+  },
+
+  setFav(state, payload) {
+    if (state.favs.includes(payload)) {
+      const index = state.favs.indexOf(payload);
+      state.favs.splice(index, 1);
+    } else {
+      state.favs.push(payload);
+    }
+
+    localStorage.setItem("PokeFavs", JSON.stringify(state.favs));
+  },
+
+  setFavList(state, payload) {
+    state.favList = payload.filter((p) => state.favs.includes(p.name));
+    state.showingFavsList = payload.filter((p) => state.favs.includes(p.name));
   },
 };
 
@@ -35,6 +59,7 @@ export const actions = {
     const pokemonList = await getPokemonList();
     commit("setPokemonList", pokemonList.results);
     commit("setShowingList", pokemonList.results);
+    commit("setFavList", pokemonList.results);
   },
 
   async getPokemon({ commit }, payload) {
@@ -43,11 +68,18 @@ export const actions = {
     commit("setShowModal", true);
   },
 
-  setFilter({ state, commit }, payload) {
+  setAllFilter({ state, commit }, payload) {
     const filtered = state.pokemonList.filter((f) =>
       f.name.includes(payload.toLowerCase())
     );
     commit("setShowingList", filtered);
+  },
+
+  setFavsFilter({ state, commit }, payload) {
+    const filtered = state.favList.filter((f) =>
+      f.name.includes(payload.toLowerCase())
+    );
+    commit("setShowingFavsList", filtered);
   },
 };
 
@@ -58,6 +90,10 @@ export const getters = {
 
   getShowingList(state) {
     return state.showingList;
+  },
+
+  getShowingFavsList(state) {
+    return state.showingFavsList;
   },
 
   getPokemon(state) {
@@ -80,8 +116,20 @@ export const getters = {
     return state.showModal;
   },
 
-  getFilter(state) {
-    return state.filter;
+  getAllFilter(state) {
+    return state.allFilter;
+  },
+
+  getAllFavsFilter(state) {
+    return state.allFavsFilter;
+  },
+
+  getFavs(state) {
+    return state.favs;
+  },
+
+  getFavList(state) {
+    return state.favList;
   },
 };
 export default {
