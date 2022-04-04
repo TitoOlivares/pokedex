@@ -39,10 +39,10 @@
           </v-row>
           <v-divider class="mt-3"></v-divider>
           <v-row class="mt-6 mb-1 d-flex justify-space-between">
-            <v-col>
+            <v-col sm="2">
               <btn @click="copy"> Share to my friends </btn>
             </v-col>
-            <v-col class="d-flex justify-end">
+            <v-col sm="2" class="d-flex justify-center">
               <v-btn icon @click.native.stop="favorite(pokemon.name)">
                 <img :src="star(pokemon.name) ? active : inactive" alt="" />
               </v-btn>
