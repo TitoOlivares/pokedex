@@ -31,8 +31,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 .main {
   background-color: #e5e5e5;
-  font-family: "Lato";
 }
 </style>
