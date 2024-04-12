@@ -18,7 +18,7 @@
     "vuex": "^3.6.2"
   },
 "engines": {
-  "node": "17.x"
+  "node": "20.x"
 },
   "devDependencies": {
     "@babel/core": "^7.12.16",
