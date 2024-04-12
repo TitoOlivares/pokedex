@@ -1,6 +1,7 @@
 # pokedex
 
 ## Tecnologías
+
 Para este proyecto se han utilizado las siguientes tecnologías:
 
 - Vue.js
@@ -11,30 +12,37 @@ Para este proyecto se han utilizado las siguientes tecnologías:
   - Se ha optado por esta librería UI para Vue.js con componentes predefinidos y customizables para facilitar el desarrollo de las interfaces y sus estilos.
 
 ## Componentes
+
 Para evitar la reutilización innecesaria de código, se han implementado componentes reutilizables, modificables a través de props, en el caso de los componentes que más se utilizaron, tales como botones y listas con cards, en base a la librería Vuetify mencionada anteriormente.
 
 ## DEMO
-LIVE DEMO: https://pokedex-dev-app.herokuapp.com
+
+LIVE DEMO: https://pokedex-tito-vue.vercel.app/home
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn build
 ```
 
 ### Lints and fixes files
+
 ```
 yarn lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
