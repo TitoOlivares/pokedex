@@ -1,9 +1,9 @@
 const URL = process.env.VUE_APP_POKE_URL;
 
-export async function getPokemonList() {
+export async function getPokemonList(payload) {
   try {
     const response = await fetch(
-      `${URL}?` + new URLSearchParams({ limit: 151 })
+      `${URL}?` + new URLSearchParams({ offset: payload, limit: 20 })
     );
     const data = await response.json();
 

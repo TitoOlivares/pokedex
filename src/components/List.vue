@@ -8,13 +8,26 @@
       prepend-inner-icon="mdi-magnify"
     ></v-text-field>
     <v-row v-if="pokemonList.length" class="mt-6">
-      <v-col cols="12" v-for="(pokemon, i) in pokemonList" :key="i">
+      <v-col
+        cols="12"
+        lg="6"
+        md="12"
+        v-for="(pokemon, i) in pokemonList"
+        :key="i"
+      >
         <v-card
-          height="60"
           @click="showPokemon(pokemon)"
           elevation="0"
           class="d-flex align-center justify-space-between py-3 px-6"
         >
+          <span>
+            <img
+              width="60"
+              height="60"
+              :src="imageUrl + pokeId(pokemon) + '.png'"
+              alt=""
+            />
+          </span>
           <span class="text-capitalize">
             {{ pokemon.name }}
           </span>
@@ -23,6 +36,19 @@
           </v-btn>
         </v-card>
       </v-col>
+      <v-col cols="12">
+        <v-pagination
+          class="mt-3 text-center"
+          v-model="page"
+          :length="Math.ceil(count / 20)"
+          :total-visible="7"
+          @input="updatePage"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
+    <v-row v-else-if="loading">
+      <loader />
     </v-row>
     <v-row v-else>
       <empty-list />
@@ -34,6 +60,7 @@
 <script>
 import ModalDetail from "../components/ModalDetail";
 import EmptyList from "../components/EmptyList";
+import Loader from "./ui/Loader.vue";
 
 export default {
   name: "PokeList",
@@ -41,6 +68,7 @@ export default {
   components: {
     ModalDetail,
     EmptyList,
+    Loader,
   },
 
   props: {
@@ -57,6 +85,8 @@ export default {
   data: () => ({
     inactive: require("../assets/unselected.svg"),
     active: require("../assets/selected.svg"),
+    imageUrl:
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/",
   }),
 
   methods: {
@@ -71,6 +101,18 @@ export default {
         return true;
       }
       return false;
+    },
+    pokeId(poke) {
+      return poke.url
+        .split("/")
+        .filter(function (part) {
+          return !!part;
+        })
+        .pop();
+    },
+    updatePage(index) {
+      this.$store.dispatch("setPage", index);
+      this.$store.dispatch("getPokemonList", this.offset);
     },
   },
   computed: {
@@ -91,6 +133,18 @@ export default {
     },
     pokemonFavs() {
       return this.$store.getters.getFavs;
+    },
+    loading() {
+      return this.$store.getters.getLoading;
+    },
+    count() {
+      return this.$store.getters.getCount;
+    },
+    offset() {
+      return (this.page - 1) * 20;
+    },
+    page() {
+      return this.$store.getters.getPage;
     },
   },
 };

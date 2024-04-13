@@ -10,6 +10,9 @@ const initialState = {
   allFavsFilter: "",
   favs: JSON.parse(localStorage.getItem("PokeFavs")) || [],
   favList: [],
+  loading: false,
+  count: 0,
+  page: 1,
 };
 
 export const mutations = {
@@ -52,11 +55,26 @@ export const mutations = {
     state.favList = payload.filter((p) => state.favs.includes(p.name));
     state.showingFavsList = payload.filter((p) => state.favs.includes(p.name));
   },
+
+  setLoading(state, payload) {
+    state.loading = payload;
+  },
+
+  setCount(state, payload) {
+    state.count = payload;
+  },
+
+  setPage(state, payload) {
+    state.page = payload;
+  },
 };
 
 export const actions = {
-  async getPokemonList({ commit }) {
-    const pokemonList = await getPokemonList();
+  async getPokemonList({ commit }, payload) {
+    commit("setLoading", true);
+    const pokemonList = await getPokemonList(payload);
+    commit("setCount", pokemonList.count);
+    commit("setLoading", false);
     commit("setPokemonList", pokemonList.results);
     commit("setShowingList", pokemonList.results);
     commit("setFavList", pokemonList.results);
@@ -84,6 +102,9 @@ export const actions = {
   async setFav({ state, commit }, payload) {
     await commit("setFav", payload);
     commit("setFavList", state.pokemonList);
+  },
+  setPage({ commit }, payload) {
+    commit("setPage", payload);
   },
 };
 
@@ -134,6 +155,18 @@ export const getters = {
 
   getFavList(state) {
     return state.favList;
+  },
+
+  getLoading(state) {
+    return state.loading;
+  },
+
+  getCount(state) {
+    return state.count;
+  },
+
+  getPage(state) {
+    return state.page;
   },
 };
 export default {
