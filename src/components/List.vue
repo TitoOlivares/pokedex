@@ -143,8 +143,14 @@ export default {
     offset() {
       return (this.page - 1) * 20;
     },
-    page() {
-      return this.$store.getters.getPage;
+    page: {
+      get() {
+        return this.$store.getters.getPage;
+      },
+      set(value) {
+        this.$store.dispatch("setPage", value);
+        this.$store.dispatch("getPokemonList", this.offset);
+      },
     },
   },
 };
